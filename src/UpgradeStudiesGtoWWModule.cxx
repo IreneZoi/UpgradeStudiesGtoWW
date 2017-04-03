@@ -6,6 +6,10 @@
 #include "UHH2/common/include/CommonModules.h"
 #include "UHH2/common/include/CleaningModules.h"
 #include "UHH2/common/include/ElectronHists.h"
+#include <UHH2/common/include/JetIds.h>
+#include "UHH2/common/include/JetHists.h"
+#include "UHH2/common/include/GenJetsHists.h"
+#include <UHH2/common/include/JetCorrections.h>
 #include "UHH2/common/include/NSelections.h"
 #include "UHH2/UpgradeStudiesGtoWW/include/UpgradeStudiesGtoWWSelections.h"
 #include "UHH2/UpgradeStudiesGtoWW/include/UpgradeStudiesGtoWWHists.h"
@@ -38,6 +42,10 @@ private:
     
     // store the Hists collection as member variables. Again, use unique_ptr to avoid memory leaks.
     std::unique_ptr<Hists> h_nocuts, h_njet, h_dijet, h_ele;
+    std::unique_ptr<Hists> h_input_slimmedGenJet; //irene for w mass                                                                                                                                  
+    std::unique_ptr<Hists> h_input_slimmedJet; //irene for w mass
+    std::unique_ptr<Hists> h_input_slimmedJetAK8_SoftDrop; //irene for w mass                                                                                                                          
+
 };
 
 
@@ -61,9 +69,11 @@ UpgradeStudiesGtoWWModule::UpgradeStudiesGtoWWModule(Context & ctx){
     }
     
     // 1. setup other modules. CommonModules and the JetCleaner:
+    
     common.reset(new CommonModules());
     // TODO: configure common here, e.g. by 
     // calling common->set_*_id or common->disable_*
+    common->disable_mcpileupreweight(); //irene
     common->init(ctx);
     jetcleaner.reset(new JetCleaner(ctx, 30.0, 2.4)); 
     
@@ -82,6 +92,10 @@ UpgradeStudiesGtoWWModule::UpgradeStudiesGtoWWModule(Context & ctx){
     h_njet.reset(new UpgradeStudiesGtoWWHists(ctx, "Njet"));
     h_dijet.reset(new UpgradeStudiesGtoWWHists(ctx, "Dijet"));
     h_ele.reset(new ElectronHists(ctx, "ele_nocuts"));
+    h_input_slimmedGenJet.reset(new GenJetsHists(ctx, "slimmedGenJet_nocuts")); //irene for w mass                                                                                                         
+    h_input_slimmedJet.reset(new JetHists(ctx, "slimmedJet_nocuts")); //irene for w mass
+    h_input_slimmedJetAK8_SoftDrop.reset(new TopJetHists(ctx, "slimmedJetAK8_SoftDrop_nocuts")); //irene for w mass                                                                                
+
 }
 
 
@@ -99,13 +113,19 @@ bool UpgradeStudiesGtoWWModule::process(Event & event) {
     cout << "UpgradeStudiesGtoWWModule: Starting to process event (runid, eventid) = (" << event.run << ", " << event.event << "); weight = " << event.weight << endl;
     
     // 1. run all modules other modules.
+
     common->process(event);
+
     jetcleaner->process(event);
     
     // 2. test selections and fill histograms
     h_ele->fill(event);
     h_nocuts->fill(event);
-    
+    h_input_slimmedGenJet->fill(event);     //irene for w mass
+    h_input_slimmedJet->fill(event);     //irene for w mass
+    h_input_slimmedJetAK8_SoftDrop->fill(event);     //irene for w mass                                                                                                                                  
+
+
     bool njet_selection = njet_sel->passes(event);
     if(njet_selection){
         h_njet->fill(event);

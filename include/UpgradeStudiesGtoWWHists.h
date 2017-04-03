@@ -18,6 +18,11 @@ public:
 
     virtual void fill(const uhh2::Event & ev) override;
     virtual ~UpgradeStudiesGtoWWHists();
+    //irene for mass ratio histograms
+
+
+
+
 };
 
 }

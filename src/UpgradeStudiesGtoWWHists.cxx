@@ -1,5 +1,6 @@
 #include "UHH2/UpgradeStudiesGtoWW/include/UpgradeStudiesGtoWWHists.h"
 #include "UHH2/core/include/Event.h"
+#include "UHH2/common/include/JetHists.h"
 
 #include "TH1F.h"
 #include <iostream>
@@ -9,7 +10,12 @@ using namespace uhh2;
 using namespace uhh2examples;
 
 UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
-  // book all histograms here
+  //******************* book all histograms here *****************************
+
+  //ratios (Reco -Gen)/Gen
+  book<TH1F>("Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -2, 8); //irene
+  //  book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100, -100, 100); //irene                                                                                                                   
+
   // jets
   book<TH1F>("N_jets", "N_{jets}", 20, 0, 20);  
   book<TH1F>("eta_jet1", "#eta^{jet 1}", 40, -2.5, 2.5);
@@ -41,6 +47,18 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   int Njets = jets->size();
   hist("N_jets")->Fill(Njets, weight);
   
+  // begin irene for ratios histograms
+  
+  auto RecoJetMass = event.topjets->at(0).v4().M();
+  auto GenJetMass = event.genjets->at(0).v4().M();
+  hist("Mass_Ratio")->Fill((RecoJetMass-GenJetMass)/GenJetMass, weight);
+
+
+  //  auto RecoTau21 = event.topjets->at(0)->tau2()/event.topjets->at(0).tau1();
+  //  auto GenTau21 = event.gentopjets->at(0)->tau2()/event.gentopjets->at(0).tau1();
+  //  hist("Tau_Ratio")->Fill((RecoTau21-GenTau21)/GenTau21, weight);
+  //end irene for ratios histograms
+
   if(Njets>=1){
     hist("eta_jet1")->Fill(jets->at(0).eta(), weight);
   }
