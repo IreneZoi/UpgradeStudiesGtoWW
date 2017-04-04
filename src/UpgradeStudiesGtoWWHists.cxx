@@ -14,7 +14,15 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
 
   //ratios (Reco -Gen)/Gen
   book<TH1F>("Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -2, 8); //irene
-  //  book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100, -100, 100); //irene                                                                                                                   
+  //  book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-100000, 100000); //irene                                                                                                                
+  //  book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/RecoTau21", 100,-1, 2); //irene 
+  book<TH1F>("Tau21_Gen", "#tau_2/#tau_1", 50,-15e-17,15e-17); //irene                                                                                                                     
+  //book<TH1F>("Tau21_Reco", "#tau_2/#tau_1", 100,0,1); //irene 
+  //  book<TH1F>("CHF_Gen", "CHF", 100,0,1); //irene  
+  //book<TH1F>("CHF_Gen_1", "CHF_1", 100,1e-314,1e-316); //irene 
+  //  book<TH1F>("CHF_Ratio", "(RecoCHF-GenCHF)/GenCHF", 100,-1,1); //irene  
+  book<TH1F>("SoftDropMass_Gen", "GenJetSoftDropMass [GeV/c^2]", 100,0,300);
+  book<TH1F>("SoftDropMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-1,1);
 
   // jets
   book<TH1F>("N_jets", "N_{jets}", 20, 0, 20);  
@@ -54,10 +62,32 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   hist("Mass_Ratio")->Fill((RecoJetMass-GenJetMass)/GenJetMass, weight);
 
 
-  //  auto RecoTau21 = event.topjets->at(0)->tau2()/event.topjets->at(0).tau1();
-  //  auto GenTau21 = event.gentopjets->at(0)->tau2()/event.gentopjets->at(0).tau1();
+  auto RecoTau21 = event.topjets->at(0).tau2()/event.topjets->at(0).tau1();
+  auto GenTau21 = event.gentopjets->at(0).tau2()/event.gentopjets->at(0).tau1();
+  hist("Tau21_Gen")->Fill(GenTau21, weight);
+   //  hist("Tau21_Reco")->Fill(RecoTau21, weight);
+  
+  //SoftDrop 
+  auto RecoJetSDMass1 = event.topjets->at(0).softdropmass();
+  auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
+  hist("SoftDropMass_Gen")->Fill(GenJetSDMass1, weight);
+  hist("SoftDropMass_ratio")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
+  cout << " RecoJetSDMass1: " << RecoJetSDMass1 << " GenJetSDMass1: " << GenJetSDMass1 << " ratio: " << (RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1 << endl;
+
+  //CHF 
+  //  auto RecoCHF1 = event.topjets->at(0).chargedHadronEnergyFraction();
+  //auto GenCHF = event.gentopjets->chf();
+  //auto GenCHF1 = event.gentopjets->at(0).chf();
+  //cout << " RecoCHF1: " << RecoCHF1 << " GenCHF1: " << GenCHF1 << " ratio: " << (RecoCHF1-GenCHF1)/GenCHF1 << endl;
+  //hist("CHF_Gen")->Fill(GenCHF, weight);
+  //hist("CHF_Gen_1")->Fill(GenCHF1, weight);
+  //hist("CHF_Ratio")->Fill((RecoCHF1-GenCHF1)/GenCHF1, weight);
+
+
+  //cout << " RecoTau21: " << RecoTau21 << " GenTau21: " << GenTau21 << " ratio: " << (RecoTau21-GenTau21)/RecoTau21 << endl;
   //  hist("Tau_Ratio")->Fill((RecoTau21-GenTau21)/GenTau21, weight);
-  //end irene for ratios histograms
+  //hist("Tau_Ratio")->Fill((RecoTau21-GenTau21)/RecoTau21, weight); 
+ //end irene for ratios histograms
 
   if(Njets>=1){
     hist("eta_jet1")->Fill(jets->at(0).eta(), weight);
