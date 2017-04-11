@@ -13,7 +13,7 @@
 #include "UHH2/common/include/NSelections.h"
 #include "UHH2/UpgradeStudiesGtoWW/include/UpgradeStudiesGtoWWSelections.h"
 #include "UHH2/UpgradeStudiesGtoWW/include/UpgradeStudiesGtoWWHists.h"
-
+#include "UHH2/UpgradeStudiesGtoWW/include/UpgradeGenTopJetHists.h"
 using namespace std;
 using namespace uhh2;
 
@@ -45,7 +45,7 @@ private:
     std::unique_ptr<Hists> h_input_slimmedGenJet; //irene for w mass                                                                                                                                  
     std::unique_ptr<Hists> h_input_slimmedJet; //irene for w mass
     std::unique_ptr<Hists> h_input_slimmedJetAK8_SoftDrop; //irene for w mass                                                                                                                          
-  //    std::unique_ptr<Hists> h_input_ak8GenJetsSoftDrop; //irene for w mass
+    std::unique_ptr<Hists> h_input_ak8GenJetsSoftDrop; //irene for w mass
 };
 
 
@@ -95,7 +95,8 @@ UpgradeStudiesGtoWWModule::UpgradeStudiesGtoWWModule(Context & ctx){
     h_input_slimmedGenJet.reset(new GenJetsHists(ctx, "slimmedGenJet_nocuts")); //irene for w mass                                                                                                         
     h_input_slimmedJet.reset(new JetHists(ctx, "slimmedJet_nocuts")); //irene for w mass
     h_input_slimmedJetAK8_SoftDrop.reset(new TopJetHists(ctx, "slimmedJetAK8_SoftDrop_nocuts")); //irene for w mass                                                                                
-    //    h_input_ak8GenJetsSoftDrop.reset(new GenTopJetsHists(ctx, "GenJetAK8_SoftDrop_nocuts"));
+    h_input_ak8GenJetsSoftDrop.reset(new UpgradeGenTopJetHists(ctx, "GenJetAK8_SoftDrop_nocuts"));
+    
 }
 
 
@@ -115,16 +116,14 @@ bool UpgradeStudiesGtoWWModule::process(Event & event) {
     // 1. run all modules other modules.
 
     common->process(event);
-
     jetcleaner->process(event);
-    
     // 2. test selections and fill histograms
     h_ele->fill(event);
     h_nocuts->fill(event);
     h_input_slimmedGenJet->fill(event);     //irene for w mass
     h_input_slimmedJet->fill(event);     //irene for w mass
     h_input_slimmedJetAK8_SoftDrop->fill(event);     //irene for w mass                                                                                                                                  
-    //h_input_ak8GenJetsSoftDrop->fill(event);     //irene for w mass 
+    h_input_ak8GenJetsSoftDrop->fill(event);     //irene for w mass 
 
     bool njet_selection = njet_sel->passes(event);
     if(njet_selection){

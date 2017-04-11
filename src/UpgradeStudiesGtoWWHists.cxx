@@ -1,7 +1,7 @@
 #include "UHH2/UpgradeStudiesGtoWW/include/UpgradeStudiesGtoWWHists.h"
 #include "UHH2/core/include/Event.h"
 #include "UHH2/common/include/JetHists.h"
-
+#include "UHH2/core/include/TopJet.h"
 #include "TH1F.h"
 #include <iostream>
 
@@ -13,23 +13,15 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
   //******************* book all histograms here *****************************
   
   //ratios (Reco -Gen)/Gen
-  book<TH1F>("Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -2, 8); //irene
+  book<TH1F>("Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -1, 7); //irene
   
-  //  book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-10, 10); //irene                                                                                                                
-  //book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/RecoTau21", 100,-1, 2); //irene 
+  book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-1, 7); //irene                                                                                                                
+   
+  book<TH1F>("CHF_Ratio", "(RecoCHF-GenCHF)/GenCHF", 100,-1,7); //irene
 
-  book<TH1F>("Tau21_Gen1", "#tau#_2/#tau#_1", 50,-15e-17,15e-17); //irene                                                                                                                                  
-  book<TH1F>("Tau21_Gen2", "#tau#_2/#tau#_1", 50,-15e-17,15e-17); //irene                                                                                                                                 
-  book<TH1F>("GenTau2_1", "#tau#_2", 50,0,1); //irene                                                                                                                     
-  book<TH1F>("GenTau1_1", "#tau#_1", 50,0,1); //irene                                                                                                                                   
-  
-//book<TH1F>("Tau21_Reco", "#tau_2/#tau_1", 100,0,1); //irene 
-  book<TH1F>("CHF_Gen_2", "CHF", 100,0,1); //irene  
-  book<TH1F>("CHF_Gen_1", "CHF_1", 100,0,1); //irene 
-  book<TH1F>("CHF_Ratio", "(RecoCHF-GenCHF)/GenCHF", 100,-10,10); //irene  
-
-  book<TH1F>("SoftDropMass_Gen", "GenJetSoftDropMass [GeV/c^2]", 100,0,300);
-  book<TH1F>("SoftDropMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-1,1);
+  book<TH1F>("SoftDropMass_RECO", "RecoSDMass", 100,0,300);
+  book<TH1F>("SoftDropMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
+  book<TH1F>("PrunedMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
 
   // jets
   book<TH1F>("N_jets", "N_{jets}", 20, 0, 20);  
@@ -46,6 +38,7 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
 
   // primary vertices
   book<TH1F>("N_pv", "N^{PV}", 50, 0, 50);
+
 }
 
 
@@ -59,51 +52,44 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   double weight = event.weight;
   
   std::vector<Jet>* jets = event.jets;
+
+
   int Njets = jets->size();
   hist("N_jets")->Fill(Njets, weight);
   
   // begin irene for ratios histograms
+
+  if(event.gentopjets->size() < 1) return;
+  if(event.topjets->size() < 1) return;
+
   
   auto RecoJetMass = event.topjets->at(0).v4().M();
-  auto GenJetMass = event.gentopjets->at(0).v4().M();
+  auto GenJetMass  = event.gentopjets->at(0).v4().M();
   hist("Mass_Ratio")->Fill((RecoJetMass-GenJetMass)/GenJetMass, weight);
   
   
-  auto RecoTau21 = event.topjets->at(0).tau2()/event.topjets->at(0).tau1();
-  auto GenTau21_1 = event.gentopjets->at(0).tau2()/event.gentopjets->at(0).tau1();
-  auto GenTau21_2 = event.gentopjets->at(1).tau2()/event.gentopjets->at(1).tau1();
-  auto GenTau1_1 = event.gentopjets->at(0).tau1();
-  auto GenTau2_1 = event.gentopjets->at(0).tau2();
-  hist("GenTau1_1")->Fill(GenTau1_1, weight);
-  hist("GenTau2_1")->Fill(GenTau2_1, weight);
-  hist("Tau21_Gen1")->Fill(GenTau21_1, weight);
-  hist("Tau21_Gen2")->Fill(GenTau21_2, weight);
-
-  // hist("Tau_Ratio")->Fill((RecoTau21-GenTau21)/GenTau21, weight);
-  //  hist("Tau21_Reco")->Fill(RecoTau21, weight);
+  auto RecoTau21_1 = event.topjets->at(0).tau2()/event.topjets->at(0).tau1();
+  auto GenTau1_1   = event.gentopjets->at(0).tau1();
+  auto GenTau2_1   = event.gentopjets->at(0).tau2();
+  auto GenTau21_1  = GenTau2_1/GenTau1_1;
+  hist("Tau_Ratio")->Fill((RecoTau21_1-GenTau21_1)/GenTau21_1, weight);
+ 
+  auto RecoCHF_1 = event.topjets->at(0).chargedHadronEnergyFraction();
+  auto GenCHF_1  = event.gentopjets->at(0).chf();
+  hist("CHF_Ratio")->Fill((RecoCHF_1-GenCHF_1)/GenCHF_1, weight);
   
 
   //SoftDrop 
-  auto RecoJetSDMass1 = event.topjets->at(0).softdropmass();
+  auto RecoJetSDMass1 = event.topjets->at(0).softdropmass(); 
   auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
-  hist("SoftDropMass_Gen")->Fill(GenJetSDMass1, weight);
   hist("SoftDropMass_ratio")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
-  //cout << " RecoJetSDMass1: " << RecoJetSDMass1 << " GenJetSDMass1: " << GenJetSDMass1 << " ratio: " << (RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1 << endl;
+  hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
 
-  //CHF 
-  auto RecoCHF1 = event.topjets->at(0).chargedHadronEnergyFraction();
-  auto GenCHF2 = event.gentopjets->at(1).chf();
-  auto GenCHF1 = event.gentopjets->at(0).chf();
-  cout << " RecoCHF1: " << RecoCHF1 << " GenCHF1: " << GenCHF1  << " GenCHF2 " << GenCHF2 << " ratio: " << (RecoCHF1-GenCHF1)/GenCHF1 << endl;
-  hist("CHF_Gen_2")->Fill(GenCHF2, weight);
-  hist("CHF_Gen_1")->Fill(GenCHF1, weight);
-  hist("CHF_Ratio")->Fill((RecoCHF1-GenCHF1)/GenCHF1, weight);
-
-
-  cout << " GenTau1_1: " << GenTau1_1 << " GenTau2_1: " << GenTau2_1 <<  endl;
-
-  //hist("Tau_Ratio")->Fill((RecoTau21-GenTau21)/RecoTau21, weight); 
- //end irene for ratios histograms
+  //Puppi 
+  auto RecoJetPuppiMass1 = event.topjets->at(0).prunedmass();
+  hist("PrunedMass_ratio")->Fill((RecoJetPuppiMass1-GenJetSDMass1)/GenJetSDMass1, weight);
+ 
+//end irene for ratios histograms
  
   if(Njets>=1){
     hist("eta_jet1")->Fill(jets->at(0).eta(), weight);
