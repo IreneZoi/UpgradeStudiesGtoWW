@@ -2,6 +2,7 @@
 #include "UHH2/core/include/Event.h"
 #include "UHH2/common/include/JetHists.h"
 #include "UHH2/core/include/TopJet.h"
+#include "UHH2/core/include/LorentzVector.h"
 #include "TH1F.h"
 #include <iostream>
 
@@ -80,8 +81,27 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   
 
   //SoftDrop 
-  auto RecoJetSDMass1 = event.topjets->at(0).softdropmass(); 
-  auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
+  //auto RecoJetSDMass1 = event.topjets->at(0).softdropmass();
+  vector<TopJet> Tjets = *event.topjets;
+  if(Tjets.size()<1) return;
+  const auto & jet = Tjets[0];
+  LorentzVector subjet_sum;
+  for (const auto s : jet.subjets()) {
+    subjet_sum += s.v4();
+  }
+  vector<GenTopJet> GTjets = *event.gentopjets;
+  if(GTjets.size()<1) return;
+  const auto & gjet = GTjets[0];
+  LorentzVector gsubjet_sum;
+  for (const auto sg : gjet.subjets()) {
+    gsubjet_sum += sg.v4();
+  }
+
+
+
+  auto RecoJetSDMass1 = subjet_sum.M();
+  //auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
+  auto GenJetSDMass1 = gsubjet_sum.M();
   hist("SoftDropMass_ratio")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
   hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
 
