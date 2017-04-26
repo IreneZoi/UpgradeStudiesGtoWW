@@ -17,7 +17,9 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
   book<TH1F>("Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -1, 7); //irene
   
   book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-1, 7); //irene                                                                                                                
-   
+
+  book<TH1F>("CHF_RecoJet", "CHF", 100,0,1); //irene                                                                                                                                     
+  book<TH1F>("CHF_Ratio_Up", "(RecoCHF-GenCHF)/GenCHF", 100,-1,7); //irene                                                                                                                                     
   book<TH1F>("CHF_Ratio", "(RecoCHF-GenCHF)/GenCHF", 100,-1,7); //irene
 
   book<TH1F>("SoftDropMass_RECO", "RecoSDMass", 100,0,300);
@@ -75,10 +77,12 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   auto GenTau21_1  = GenTau2_1/GenTau1_1;
   hist("Tau_Ratio")->Fill((RecoTau21_1-GenTau21_1)/GenTau21_1, weight);
  
+  auto RecoJCHF_1 = event.jets->at(0).chargedHadronEnergyFraction();
+  hist("CHF_RecoJet")->Fill(RecoJCHF_1,weight);
   auto RecoCHF_1 = event.topjets->at(0).chargedHadronEnergyFraction();
   auto GenCHF_1  = event.gentopjets->at(0).chf();
   hist("CHF_Ratio")->Fill((RecoCHF_1-GenCHF_1)/GenCHF_1, weight);
-  
+  hist("CHF_Ratio_Up")->Fill((RecoJCHF_1-GenCHF_1)/GenCHF_1, weight);
 
   //SoftDrop 
   //auto RecoJetSDMass1 = event.topjets->at(0).softdropmass();

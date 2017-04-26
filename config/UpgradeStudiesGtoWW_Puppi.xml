@@ -2,13 +2,13 @@
 <!DOCTYPE JobConfiguration PUBLIC "" "JobConfig.dtd">
 
 <!-- OutputLevel controls which messages are printed; set to VERBOSE or DEBUG for more verbosity, to WARNING or ERROR for less -->
-<JobConfiguration JobName="ExampleCycleJob" OutputLevel="INFO">
+<JobConfiguration JobName="ExampleCycleJob" OutputLevel="VERBOSE">
     <Library Name="libSUHH2UpgradeStudiesGtoWW"/>
     <Package Name="SUHH2UpgradeStudiesGtoWW.par" />
 
    <Cycle Name="uhh2::AnalysisModuleRunner" OutputDirectory="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase0/Output/" PostFix="" TargetLumi="1" >
    <!-- <Cycle Name="uhh2::AnalysisModuleRunner"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/ottjoc/proof-wd/" ProofNodes="2" OutputDirectory="./" PostFix="" TargetLumi="1" >  -->
-        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="G2000toWWToWlepWhad_NoSelection_Puppi_prova" Cacheable="False">
+        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="G2000toWWToWlepWhad_NoSelection_Puppi_riprova" Cacheable="False">
             <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase0/NTuples/EXO-RunIISummer16_Ntuple_newGenVariables.root" Lumi="0.0"/>
 <!--            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase0/NTuples/EXO-RunIISummer16Ntuple.root" Lumi="0.0"/>--> 
 <!--            <In FileName="/nfs/dust/cms/user/ottjoc/gc-output/PHYS14v1/signals/MC_BpJ_TW_M800_20x25_15_Ntuple.root" Lumi="0.0"/> 
