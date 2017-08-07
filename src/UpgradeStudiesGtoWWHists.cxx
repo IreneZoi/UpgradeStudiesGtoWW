@@ -13,18 +13,26 @@ using namespace uhh2examples;
 UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string & dirname): Hists(ctx, dirname){
   //******************* book all histograms here *****************************
   
+
   //ratios (Reco -Gen)/Gen
   book<TH1F>("Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -1, 7); //irene
   
   book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-1, 7); //irene                                                                                                                
 
-  book<TH1F>("CHF_RecoJet", "CHF", 100,0,1); //irene                                                                                                                                     
-  book<TH1F>("CHF_Ratio_Up", "(RecoCHF-GenCHF)/GenCHF", 100,-1,7); //irene                                                                                                                                     
+  book<TH1F>("CHF_RecoJet", "CHF", 50,0,1); //irene                                                                                                                                     
+  book<TH1F>("CHF_Ratio_Up", "(RecoCHF-GenCHF)/GenCHF", 24,-1,1); //irene before 100, -1, 7     
   book<TH1F>("CHF_Ratio", "(RecoCHF-GenCHF)/GenCHF", 100,-1,7); //irene
+  book<TH1F>("CHF_Ratio_RecoGen", "RecoCHF/GenCHF", 24,0,2); //irene before 100, -1, 7     
+
 
   book<TH1F>("SoftDropMass_RECO", "RecoSDMass", 100,0,300);
   book<TH1F>("SoftDropMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
+  book<TH1F>("SoftDropMass_ratio_range", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
   book<TH1F>("PrunedMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
+
+  //ROC curve
+  //  book<TH1F>("ROC_curve_mass_tau21", " jet mass" , 100,0,300);
+
 
   // jets
   book<TH1F>("N_jets", "N_{jets}", 20, 0, 20);  
@@ -40,7 +48,10 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
   book<TH1F>("reliso_mu", "#mu rel. Iso", 40, 0, 0.5);
 
   // primary vertices
-  book<TH1F>("N_pv", "N^{PV}", 50, 0, 50);
+  book<TH1F>("N_pv", "N^{PV}", 250, 0, 250);
+
+  //event weight
+  book<TH1F>("weight", "weight", 100, 0, 0.01);
 
 }
 
@@ -53,11 +64,13 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   
   // Don't forget to always use the weight when filling.
   double weight = event.weight;
+  hist("weight")->Fill(weight);
   
   std::vector<Jet>* jets = event.jets;
 
 
   int Njets = jets->size();
+  if(Njets<1) return;
   hist("N_jets")->Fill(Njets, weight);
   
   // begin irene for ratios histograms
@@ -83,6 +96,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   auto GenCHF_1  = event.gentopjets->at(0).chf();
   hist("CHF_Ratio")->Fill((RecoCHF_1-GenCHF_1)/GenCHF_1, weight);
   hist("CHF_Ratio_Up")->Fill((RecoJCHF_1-GenCHF_1)/GenCHF_1, weight);
+  hist("CHF_Ratio_RecoGen")->Fill(RecoJCHF_1/GenCHF_1, weight);
 
   //SoftDrop 
   //auto RecoJetSDMass1 = event.topjets->at(0).softdropmass();
@@ -107,7 +121,11 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   //auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
   auto GenJetSDMass1 = gsubjet_sum.M();
   hist("SoftDropMass_ratio")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
+  if((RecoJetSDMass1>40 && RecoJetSDMass1<120)&&(GenJetSDMass1>40&& GenJetSDMass1<120))
+  hist("SoftDropMass_ratio_range")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
   hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
+
+  //  hist("ROC_curve_mass_tau21")->Fill(RecoJetSDMass1,RecoTau21_1);
 
   //Puppi 
   auto RecoJetPuppiMass1 = event.topjets->at(0).prunedmass();

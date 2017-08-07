@@ -23,11 +23,11 @@ UpgradeGenTopJetHists::UpgradeGenTopJetHists(Context & ctx,
   book<TH1F>("Phi_1"," Phi ",100,-M_PI,M_PI);
   
   //Eta 
-  book<TH1F>("Eta_1","Eta",100,-3,3);
+  book<TH1F>("Eta_1","Eta",100,-4,4);
 
   //substructure
   book<TH1F>("SoftDropMass_Gen", "GenJetSoftDropMass [GeV/c^2]", 100,0,300);
-  book<TH1F>("CHF_1","CHF",100,0,1);
+  book<TH1F>("CHF_1","CHF",50,0,1);
   book<TH1F>("TAU1_1","#tau_{1}",50,0,1); 
   book<TH1F>("TAU2_1","#tau_{2}",50,0,1);
   book<TH1F>("Tau21_Gen1", "#tau_{2}/#tau_{1}", 50,0,1); 
@@ -85,8 +85,6 @@ void UpgradeGenTopJetHists::fill(const uhh2::Event & event){
        
       float chf = jet.at(0).chf();
       hist("CHF_1")->Fill(chf, weight);
-   
-
       float tau1 = jet.at(0).tau1();
       hist("TAU1_1")->Fill(tau1, weight);
       float tau2 = jet.at(0).tau2();
