@@ -26,10 +26,7 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
 
 
   book<TH1F>("SoftDropMass_RECO", "RecoSDMass", 100,0,300);
-  book<TH1F>("SoftDropMass_ratio", "RecoSDMass/GenSDMass", 100,0,2);
-  book<TH1F>("SoftDropMass_ratioDiff", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
-  book<TH1F>("SoftDropMass_ratioDiff_qcd", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
-  book<TH1F>("SoftDropMass_ratio_qcd", "RecoSDMass/GenSDMass", 100,0,2);
+  book<TH1F>("SoftDropMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
   book<TH1F>("SoftDropMass_ratio_range", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
   book<TH1F>("PrunedMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
 
@@ -100,8 +97,8 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   
   // begin irene for ratios histograms
 
-  if(event.gentopjets->size() < 2) return;
-  if(event.topjets->size() < 2) return;
+  if(event.gentopjets->size() < 1) return;
+  if(event.topjets->size() < 1) return;
 
   
   auto RecoJetMass = event.topjets->at(0).v4().M();
@@ -145,8 +142,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   auto RecoJetSDMass1 = subjet_sum.M();
   //auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
   auto GenJetSDMass1 = gsubjet_sum.M();
-  hist("SoftDropMass_ratio")->Fill(RecoJetSDMass1/GenJetSDMass1, weight);
-  hist("SoftDropMass_ratioDiff")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
+  hist("SoftDropMass_ratio")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
   if((RecoJetSDMass1>40 && RecoJetSDMass1<120)&&(GenJetSDMass1>40&& GenJetSDMass1<120))
   hist("SoftDropMass_ratio_range")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
   hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
@@ -159,39 +155,6 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
  
 //end irene for ratios histograms
 
-
-  //qcd
-
-  LorentzVector subjet_sum_qcd;
-  LorentzVector gsubjet_sum_qcd;
-  for(unsigned int i=0; i<event.gentopjets->size(); i++)
-    {
-      const auto & gj = GTjets[i];
-      for(unsigned int j=0; j<event.topjets->size(); j++)
-	{
-
-	  const TopJet & tj = Tjets[j];
-
-	  if(deltaR(tj,gj)<0.4)
-	    {	    
-	      for (const auto s : tj.subjets()) {
-		subjet_sum_qcd += s.v4();
-	      }
-	      for (const auto s : gj.subjets()) {
-		gsubjet_sum_qcd += s.v4();
-	      }
-	      auto RecoJetSDMass1_qcd = subjet_sum_qcd.M();
-	      auto GenJetSDMass1_qcd = gsubjet_sum_qcd.M();
-	      hist("SoftDropMass_ratioDiff_qcd")->Fill((RecoJetSDMass1_qcd-GenJetSDMass1_qcd)/GenJetSDMass1_qcd, weight);
-	      hist("SoftDropMass_ratio_qcd")->Fill(RecoJetSDMass1_qcd/GenJetSDMass1_qcd, weight);
-	    }
-	}
-    }
-
-
-
-
-
 // irene: histos for Qstar 
   assert(event.genparticles);
 
@@ -202,44 +165,29 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 
   const std::vector<GenParticle> &  genp = event.get(h_particles);
 
-  //  int index;
-  const auto & tjet_0 = Tjets[0];
-  const auto & tjet_1 = Tjets[1];
 
-  //      for(unsigned int j=0; j<event.topjets->size(); j++)
-  //     	{
-  //		     const auto & tjet = Tjets[j];
+      for(unsigned int j=0; j<event.topjets->size(); j++)
+       	{
+		     const auto & tjet = Tjets[j];
 
       for(unsigned int i=0; i<genp.size(); i++)
        	{
       	  const GenParticle & gp = genp[i];
-	  if(abs(gp.pdgId())==24)// && deltaR(tjet,gp)<0.4)
-	    {
+	 	 if(abs(gp.pdgId())==24 && deltaR(tjet,gp)<0.4)
+		   //	 if(abs(genp.pdgId())==24 && deltaR(ak8,genp)<0.4)
+		   {
 
 		     //	      cout << " W from Qstar" <<endl;
 		     // 	     RecoJetMass = ak8.v4().M();
 		     // GenJetMass  = event.gentopjets->at(0).v4().M();
 		     // hist("Mass_Ratio")->Fill((RecoJetMass-GenJetMass)/GenJetMass, weight);
-	      auto pt = tjet_0.pt();	      
-	      auto subjets = tjet_0.subjets();
-	      if(deltaR(tjet_0,gp)<0.4)
-		{
-		  RecoTau21_1 = tjet_0.tau2()/tjet_0.tau1();
-		  pt = tjet_0.pt();
-		  subjets = tjet_0.subjets();
-		}
-	      if(deltaR(tjet_1,gp)<0.4)
-		{
-		  RecoTau21_1 = tjet_1.tau2()/tjet_1.tau1();
-		  pt = tjet_1.pt();
-		  subjets = tjet_1.subjets();
-
-		}
-	      //	      RecoTau21_1 = tjet.tau2()/tjet.tau1();
+	      
+  
+		     RecoTau21_1 = tjet.tau2()/tjet.tau1();
 		     // auto GenTau1_1   = event.gentopjets->at(0).tau1();
 		     // auto GenTau2_1   = event.gentopjets->at(0).tau2();
 		     // auto GenTau21_1  = GenTau2_1/GenTau1_1;
-		     hist("Qstar_PT")->Fill(pt, weight);
+		     hist("Qstar_PT")->Fill(tjet.pt(), weight);
 		     hist("Qstar_Tau21")->Fill(RecoTau21_1, weight);
 		     // auto RecoJCHF_1 = event.jets->at(0).chargedHadronEnergyFraction();
 		     // hist("CHF_RecoJet")->Fill(RecoJCHF_1,weight);
@@ -255,7 +203,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 		     // if(Tjets.size()<1) return;
 		     // const auto & jet = Tjets[j];
 		     LorentzVector subjet_sum;
-		     for (const auto s : subjets) {
+		     for (const auto s : tjet.subjets()) {
 		      	subjet_sum += s.v4();
 		      }
 		     // vector<GenTopJet> GTjets = *event.gentopjets;
@@ -276,10 +224,10 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 		     // 	hist("SoftDropMass_ratio_range")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
 		     // hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
 	      
-		     if(pt>2500 && pt<3500)
+		     if(tjet.pt()>2500 && tjet.pt()<3500)
 		       {
 			 hist("Qstar_Tau21_PT")->Fill(RecoTau21_1, weight);
-			 hist("Qstar_PT_cut")->Fill(pt, weight);
+			 hist("Qstar_PT_cut")->Fill(tjet.pt(), weight);
 			 hist("Qstar_SoftDropMass_RECO_PT")->Fill(RecoJetSDMass1, weight);
 		       }
 	      
@@ -289,7 +237,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 	      
 	    }
        }
-      //    }	      
+    }	      
   
   
   

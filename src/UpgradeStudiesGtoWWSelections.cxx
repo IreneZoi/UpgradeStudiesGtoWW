@@ -73,7 +73,19 @@ bool LowPtSelection::passes(const Event & event){
   else return true;
 }
 
-HighPtSelection::HighPtSelection(float pt_min_): pt_min(pt_min_){}
+MediumPtSelection::MediumPtSelection(float pt_min_, float pt_max_): pt_min(pt_min_), pt_max(pt_max_){}
+
+bool MediumPtSelection::passes(const Event & event){
+  assert(event.topjets); // if this fails, it probably means jets are not read in                                                                                                                           
+  if(PRINT) cout << " asserted topjets" <<endl;
+  if(event.topjets->size() < 1) return false;
+
+  auto pt = event.topjets->at(0).pt();
+  if( pt < pt_min || pt > pt_max ) return false;
+  else return true;
+}
+
+HighPtSelection::HighPtSelection(float pt_min_, float pt_max_): pt_min(pt_min_), pt_max(pt_max_){}
     
 bool HighPtSelection::passes(const Event & event){
   assert(event.topjets); // if this fails, it probably means jets are not read in                                                                                                                           
@@ -81,11 +93,64 @@ bool HighPtSelection::passes(const Event & event){
   if(event.topjets->size() < 1) return false;
 
   auto pt = event.topjets->at(0).pt();
-  if( pt < pt_min ) return false;
+  if( pt < pt_min || pt > pt_max ) return false;
   else return true;
-
-
-
 }
+
+EtaBarrelSelection::EtaBarrelSelection(float eta_max_): eta_max(eta_max_){}
+    
+bool EtaBarrelSelection::passes(const Event & event){
+  assert(event.topjets); // if this fails, it probably means jets are not read in                                                                                                                           
+  if(PRINT) cout << " asserted topjets" <<endl;
+  if(event.topjets->size() < 1) return false;
+
+  auto eta = event.topjets->at(0).eta();
+  if( abs(eta) > eta_max ) return false;
+  else return true;
+}
+
+
+EtaEndcapSelection::EtaEndcapSelection(float eta_min_, float eta_max_): eta_min(eta_min_), eta_max(eta_max_){}
+    
+bool EtaEndcapSelection::passes(const Event & event){
+  assert(event.topjets); // if this fails, it probably means jets are not read in                                                                                                                           
+  if(PRINT) cout << " asserted topjets" <<endl;
+  if(event.topjets->size() < 1) return false;
+
+  auto eta = event.topjets->at(0).eta();
+  if( abs(eta) < eta_min || abs(eta) > eta_max ) return false;
+  else return true;
+}
+
+
+// DeltaRSelection::DeltaRSelection(float deltaR_max_): deltaR_max(deltaR_max_){}
+    
+// bool DeltaRSelection::passes(const Event & event){
+//   assert(event.topjets); // if this fails, it probably means jets are not read in                                                                                                                           
+//   if(PRINT) cout << " asserted topjets" <<endl;
+//   assert(event.genparticles); // if this fails, it probably means jets are not read in
+//   if(PRINT) cout << " asserted GenParticles" <<endl;
+     
+
+//   if(event.topjets->size() < 1) return false;
+//   if(event.genparticles->size() < 1) return false;
+//   for(const TopJet ak8:*event.topjets){
+//     for(const GenParticle part:*event.genparticles){
+//       if(event.genparticles->pdgId()!=24 || event.genparticles->pdgId()!=-24)
+// 	return false;
+//       else
+// 	{ 
+// 	  double deltar = deltaR(ak8,part);
+// 	  if(deltar > deltaR_max) return false;
+// 	  else return true;
+// 	  if(PRINT) std::cout<<"delta R selection  "<<std::endl;
+// 	}    
+//     }
+    
+//   }
+
+//   return true;
+
+// }
 
 

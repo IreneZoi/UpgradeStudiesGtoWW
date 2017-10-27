@@ -12,17 +12,17 @@ namespace uhh2examples {
  * many histograms. Therefore, it is recommended to use histogram
  * pointers as member data instead, like in 'common/include/ElectronHists.h'.
  */
-class UpgradeStudiesGtoWWHists: public uhh2::Hists {
-public:
+  class UpgradeStudiesGtoWWQstarHists: public uhh2::Hists {
+  public:
     // use the same constructor arguments as Hists for forwarding:
-    UpgradeStudiesGtoWWHists(uhh2::Context & ctx, const std::string & dirname);
-
+    UpgradeStudiesGtoWWQstarHists(uhh2::Context & ctx, const std::string & dirname);
+    
     virtual void fill(const uhh2::Event & ev) override;
-    virtual ~UpgradeStudiesGtoWWHists();
+    virtual ~UpgradeStudiesGtoWWQstarHists();
 
     uhh2::Event::Handle<std::vector <GenParticle>  > h_particles;
-
-
-};
+    
+    
+  };
 
 }

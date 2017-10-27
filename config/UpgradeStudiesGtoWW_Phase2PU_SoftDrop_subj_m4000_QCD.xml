@@ -26,9 +26,8 @@
         </InputData>
             -->
 <!-- ************* QCD bkgd ******************* -->
+<!--
         <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="QCD_300to7000_NoSelection_SoftDrop_subj" Cacheable="False">
-<!--            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase2PU/Ntuple_QCD_15to7000_P2PU.root" Lumi="0.0"/>-->
-<!--qui-->
             <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase2PU/Ntuple_QCD_300to7000_P2PU_119.root" Lumi="0.0"/>
             <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase2PU/Ntuple_QCD_300to7000_P2PU_118.root" Lumi="0.0"/>
             <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase2PU/Ntuple_QCD_300to7000_P2PU_117.root" Lumi="0.0"/>
@@ -149,11 +148,8 @@
             <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase2PU/Ntuple_QCD_300to7000_P2PU_2.root" Lumi="0.0"/>
             <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase2PU/Ntuple_QCD_300to7000_P2PU_1.root" Lumi="0.0"/>
             <InputTree Name="AnalysisTree" />
-            <!-- uncomment to write tree of selected events, i.e. of those events for which the AnalysisModule::process method  returns true                                                           
-                   If no OutputTree is given, no events will be written. Please do use "AnalysisTree" as Name. -->
-            <!-- <OutputTree Name="AnalysisTree" /> -->
         </InputData>
-            
+-->            
 
 
 

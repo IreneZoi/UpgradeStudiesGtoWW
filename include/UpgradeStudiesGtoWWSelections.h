@@ -29,7 +29,15 @@ private:
 
 class LowPtSelection: public uhh2::Selection {
 public:
-    LowPtSelection(float pt_min = 500.0f, float pt_max = 1500.0f);
+    LowPtSelection(float pt_min = 700.0f, float pt_max = 1300.0f);
+    virtual bool passes(const uhh2::Event & event) override;
+private:
+    float pt_min, pt_max;
+};
+
+class MediumPtSelection: public uhh2::Selection {
+public:
+    MediumPtSelection(float pt_min = 1500.0f, float pt_max = 2500.0f);
     virtual bool passes(const uhh2::Event & event) override;
 private:
     float pt_min, pt_max;
@@ -37,11 +45,36 @@ private:
 
 class HighPtSelection: public uhh2::Selection {
 public:
-    HighPtSelection(float pt_min = 1500.0f);
+    HighPtSelection(float pt_min = 2500.0f, float pt_max = 3500.0f);
     virtual bool passes(const uhh2::Event & event) override;
 private:
-    float pt_min;
+    float pt_min, pt_max;
 };
+
+class EtaBarrelSelection: public uhh2::Selection {
+public:
+    EtaBarrelSelection(float eta_max = 0.7f);
+    virtual bool passes(const uhh2::Event & event) override;
+private:
+    float eta_max;
+};
+
+class EtaEndcapSelection: public uhh2::Selection {
+public:
+    EtaEndcapSelection(float eta_min = 1.9f, float eta_max = 2.4f);
+    virtual bool passes(const uhh2::Event & event) override;
+private:
+    float eta_min, eta_max;
+};
+
+
+/* class DeltaRSelection: public uhh2::Selection { */
+/* public: */
+/*     DeltaRSelection(float deltaR_max = 0.4f); */
+/*     virtual bool passes(const uhh2::Event & event) override; */
+/* private: */
+/*     float deltaR_max; */
+/* }; */
 
 
 }
