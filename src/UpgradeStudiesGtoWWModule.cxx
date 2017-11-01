@@ -31,12 +31,15 @@ public:
     virtual bool process(Event & event) override;
 
 private:
-    
-    std::unique_ptr<CommonModules> common;
-    
-    std::unique_ptr<JetCleaner> jetcleaner;
-    std::unique_ptr<TopJetCleaner> topjetcleaner;
+  std::string phase_;    
+  std::unique_ptr<CommonModules> common;
+  
+  std::unique_ptr<JetCleaner> jetcleaner;
+  std::unique_ptr<TopJetCleaner> topjetcleaner;
    
+  std::unique_ptr<JetCorrector> jet_corrector;
+  std::unique_ptr<TopJetCorrector> topjet_corrector;
+
     // declare the Selections to use. Use unique_ptr to ensure automatic call of delete in the destructor,
     // to avoid memory leaks.
   std::unique_ptr<Selection> njet_sel, dijet_sel, SDmass_sel, ptLow_sel, ptMedium_sel, ptHigh_sel, barrel_sel, endcap_sel;
@@ -85,6 +88,9 @@ UpgradeStudiesGtoWWModule::UpgradeStudiesGtoWWModule(Context & ctx){
         cout << " " << kv.first << " = " << kv.second << endl;
     }
     
+
+    phase_ = ctx.get("phase");
+
     // 1. setup other modules. CommonModules and the JetCleaner:
     
     common.reset(new CommonModules());
@@ -92,6 +98,27 @@ UpgradeStudiesGtoWWModule::UpgradeStudiesGtoWWModule(Context & ctx){
     // calling common->set_*_id or common->disable_*
     common->disable_mcpileupreweight(); //irene
     common->disable_metfilters(); //irene
+    common->disable_jec(); //irene
+
+
+   
+    // TopJet correctors                     
+    std::vector<std::string> JEC_AK4, JEC_AK8;
+    if(phase_=="phase2")
+      {
+	JEC_AK4 = JERFiles::PhaseIIFall17_V2_MC_L2Relative_AK4PUPPI;
+	JEC_AK8 = JERFiles::PhaseIIFall17_V2_MC_L2Relative_AK4PUPPI; 
+      }
+    if(phase_=="phase0")
+      {
+        JEC_AK4 = JERFiles::Summer16_23Sep2016_V4_L123_AK4PFPuppi_MC;
+        JEC_AK8 = JERFiles::Summer16_23Sep2016_V4_L123_AK8PFPuppi_MC;
+      }
+
+    jet_corrector.reset(new JetCorrector(ctx, JEC_AK4));
+    topjet_corrector.reset(new TopJetCorrector(ctx, JEC_AK8));
+   
+
     common->init(ctx);
     jetcleaner.reset(new JetCleaner(ctx, 30.0, 2.4)); 
     topjetcleaner.reset(new TopJetCleaner(ctx,TopJetId(PtEtaCut(0., 2.5))));    
@@ -172,7 +199,19 @@ bool UpgradeStudiesGtoWWModule::process(Event & event) {
     
     // 1. run all modules other modules.
     h_start_ak8->fill(event);
+
     common->process(event);
+    
+    
+    topjet_corrector->process(event);
+    //    subjet_corrector->process(event);
+    //    jet_corrector->process(event);
+    jet_corrector->correct_met(event);
+    
+    sort_by_pt<Jet>(*event.jets);
+    sort_by_pt<TopJet>(*event.topjets);
+
+
     jetcleaner->process(event);
     topjetcleaner->process(event);
     // 2. test selections and fill histograms

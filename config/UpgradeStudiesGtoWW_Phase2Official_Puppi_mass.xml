@@ -8,27 +8,26 @@
 
    <Cycle Name="uhh2::AnalysisModuleRunner" OutputDirectory="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/Phase2Official/Output/" PostFix="" TargetLumi="1" >
    <!-- <Cycle Name="uhh2::AnalysisModuleRunner"  RunMode="PROOF" ProofServer="lite://"  ProofWorkDir="/nfs/dust/cms/user/ottjoc/proof-wd/" ProofNodes="2" OutputDirectory="./" PostFix="" TargetLumi="1" >  -->
-        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="VBF_BulkG2000toWW_noPU_Puppi_mass_eta" Cacheable="False">
+        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="VBF_BulkG2000toWW_noPU_Puppi_mass_eta_JEC" Cacheable="False">
 <!--qui VBF_G2000WW_noPU-->
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_18.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_17.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_16.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_15.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_14.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_13.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_12.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_11.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_10.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_9.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_8.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_7.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_6.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_5.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_4.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_3.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_2.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_1.root" Lumi="0.0"/>
-            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_0.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_18.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_17.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_16.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_15.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_14.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_13.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_12.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_11.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_10.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_9.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_8.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_7.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_6.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_5.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_4.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_3.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_2.root" Lumi="0.0"/>
+            <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_1.root" Lumi="0.0"/>
             <InputTree Name="AnalysisTree" /> 
         </InputData>
         <!--
@@ -44,7 +43,7 @@
             <Item Name="MuonCollection" Value="slimmedMuons" /> 
             <Item Name="TauCollection" Value="slimmedTaus" />
 <!--            <Item Name="JetCollection" Value="slimmedJets" />-->
-            <Item Name="JetCollection" Value="slimmedJetsPuppi" />
+            <Item Name="JetCollection" Value="slimmedJetsAK8" />
 <!--           <Item Name="TopJetCollection" Value="slimmedJetsAK8_SoftDrop" />-->
 	    <Item Name="TopJetCollection" Value="patJetsAk8PuppiJetsSoftDropPacked_daughters" />
             <Item Name="GenJetCollection" Value="slimmedGenJets" />
@@ -53,7 +52,7 @@
             <Item Name="METName" Value="slimmedMETsPuppi" />
             <Item Name="GenTopJetCollection" Value="ak8GenJetsSoftDrop" />  <!-- FOR MASS -->
 <!--        <Item Name="GenTopJetCollection" Value="ak8GenJets" />--> <!-- FOR NSubjettines and CHF-->
-
+            <Item Name="phase" Value="phase2" />
             
             <!-- The list of available collections to read in corresponds to the pointer members in event. The 'Name's to use here in the configuration are:
             

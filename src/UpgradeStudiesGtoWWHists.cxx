@@ -17,17 +17,43 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
   //ratios (Reco -Gen)/Gen
   book<TH1F>("Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -1, 7); //irene
   
-  book<TH1F>("Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-1, 7); //irene                                                                                                                
+  book<TH1F>("Tau_RatioDiff", "(RecoTau21-GenTau21)/GenTau21", 100,-1, 7); //irene        
+  book<TH1F>("Tau_Ratio", "RecoTau21/GenTau21", 100,0, 7); //irene        
+  book<TH1F>("GenTau21", "GenTau21", 50,0, 1); //irene        
+  book<TH1F>("RecoTau21", "RecoTau21", 50,0, 1); //irene        
+  book<TH1F>("JEC", "JEC factor", 50,0, 1.4); //irene        
+  book<TH1F>("JECreciprocal", "1/JEC factor", 50,0, 1.4); //irene        
+  book<TH1F>("JEC_L1", "JEC L1 factor", 50,0, 1.4); //irene        
 
-  book<TH1F>("CHF_RecoJet", "CHF", 50,0,1); //irene                                                                                                                                     
+  book<TH1F>("NHF_RecoJet", "NHF", 50,0,1); //irene                                   
+  book<TH1F>("PhF_RecoJet", "CHF", 50,0,1); //irene                                   
+  book<TH1F>("CHF_RecoJet", "PhF", 50,0,1); //irene                                   
+  book<TH1F>("NHF_RecoTJet", "NHF", 50,0,1); //irene                                   
+  book<TH1F>("PhF_RecoTJet", "CHF", 50,0,1); //irene                                   
+  book<TH1F>("CHF_RecoTJet", "PhF", 50,0,1); //irene                                   
+  book<TH1F>("NHF_GenJet", "NHF", 50,0,1); //irene                                    
+  book<TH1F>("PhF_GenJet", "PhF", 50,0,1); //irene                                    
+  book<TH1F>("CHF_GenJet", "CHF", 50,0,1); //irene                                       
+
   book<TH1F>("CHF_Ratio_Up", "(RecoCHF-GenCHF)/GenCHF", 24,-1,1); //irene before 100, -1, 7     
-  book<TH1F>("CHF_Ratio", "(RecoCHF-GenCHF)/GenCHF", 100,-1,7); //irene
-  book<TH1F>("CHF_Ratio_RecoGen", "RecoCHF/GenCHF", 24,0,2); //irene before 100, -1, 7     
+  book<TH1F>("CHF_Ratio", "RecoCHF/GenCHF", 100,-1,7); //irene
+  book<TH1F>("NHF_Ratio", "RecoNHF/GenNHF", 100,-1,7); //irene
+  book<TH1F>("PhF_Ratio", "RecoPhF/GenPhF", 100,-1,7); //irene
+  book<TH1F>("CHF_Ratio_RecoGen", "RecoCHF/GenCHF", 35,0,7); //irene before 100, -1, 7     
+  book<TH1F>("NHF_Ratio_RecoGen", "RecoNHF/GenNHF", 35,0,7); //irene before 100, -1, 7     
+  book<TH1F>("PhF_Ratio_RecoGen", "RecoPhF/GenPhF", 35,0,7); //irene before 100, -1, 7     
 
 
   book<TH1F>("SoftDropMass_RECO", "RecoSDMass", 100,0,300);
-  book<TH1F>("SoftDropMass_ratio", "RecoSDMass/GenSDMass", 100,0,2);
+  book<TH1F>("SoftDropMass_Gen", "GenSDMass", 100,0,300);
+  book<TH1F>("SoftDropMass_ratio", "RecoSDMass/GenSDMass", 20,0,2);
   book<TH1F>("SoftDropMass_ratioDiff", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
+
+  book<TH1F>("Pt_RatioDiff", "(RecoJetPt-GenJetPt)/GenJetPt", 100, -1, 7); //irene
+  book<TH1F>("Pt_Ratio", "RecoJetPt/GenJetPt", 70, 0, 7); //irene
+
+
+
   book<TH1F>("SoftDropMass_ratioDiff_qcd", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
   book<TH1F>("SoftDropMass_ratio_qcd", "RecoSDMass/GenSDMass", 100,0,2);
   book<TH1F>("SoftDropMass_ratio_range", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
@@ -36,11 +62,11 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
   //QstarToQW histos
   //  book<TH1F>("Qstar_Mass_Ratio", "(RecoJetMass-GenJetMass)/GenJetMass", 100, -1, 7); //irene
   
-  //book<TH1F>("Qstar_Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-1, 7); //irene                                                                                                                
-  book<TH1F>("Qstar_Tau21", "#tau_{21}", 50,0., 1.); //irene                                                                                                                
-  book<TH1F>("Qstar_Tau21_PT", "#tau_{21}", 50,0., 1.); //irene                                                                                                                
+  //book<TH1F>("Qstar_Tau_Ratio", "(RecoTau21-GenTau21)/GenTau21", 100,-1, 7); //irene          
+  book<TH1F>("Qstar_Tau21", "#tau_{21}", 50,0., 1.); //irene                                    
+  book<TH1F>("Qstar_Tau21_PT", "#tau_{21}", 50,0., 1.); //irene                                 
 
-  //  book<TH1F>("Qstar_CHF_RecoJet", "CHF", 50,0,1); //irene                                                                                                                                     
+  //  book<TH1F>("Qstar_CHF_RecoJet", "CHF", 50,0,1); //irene                                   
   //book<TH1F>("Qstar_CHF_Ratio_Up", "(RecoCHF-GenCHF)/GenCHF", 24,-1,1); //irene before 100, -1, 7     
   //book<TH1F>("Qstar_CHF_Ratio", "(RecoCHF-GenCHF)/GenCHF", 100,-1,7); //irene
   //book<TH1F>("Qstar_CHF_Ratio_RecoGen", "RecoCHF/GenCHF", 24,0,2); //irene before 100, -1, 7     
@@ -54,23 +80,7 @@ UpgradeStudiesGtoWWHists::UpgradeStudiesGtoWWHists(Context & ctx, const string &
   //book<TH1F>("Qstar_SoftDropMass_ratio_range", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
   //book<TH1F>("Qstar_PrunedMass_ratio", "(RecoSDMass-GenSDMass)/GenSDMass", 100,-2,2);
 
-
-
-
-  // jets
-  book<TH1F>("N_jets", "N_{jets}", 20, 0, 20);  
-  book<TH1F>("eta_jet1", "#eta^{jet 1}", 40, -2.5, 2.5);
-  book<TH1F>("eta_jet2", "#eta^{jet 2}", 40, -2.5, 2.5);
-  book<TH1F>("eta_jet3", "#eta^{jet 3}", 40, -2.5, 2.5);
-  book<TH1F>("eta_jet4", "#eta^{jet 4}", 40, -2.5, 2.5);
-
-  // leptons
-  book<TH1F>("N_mu", "N^{#mu}", 10, 0, 10);
-  book<TH1F>("pt_mu", "p_{T}^{#mu} [GeV/c]", 40, 0, 200);
-  book<TH1F>("eta_mu", "#eta^{#mu}", 40, -2.1, 2.1);
-  book<TH1F>("reliso_mu", "#mu rel. Iso", 40, 0, 0.5);
-
-  // primary vertices
+ // primary vertices
   book<TH1F>("N_pv", "N^{PV}", 250, 0, 250);
 
   //event weight
@@ -93,35 +103,80 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   
   std::vector<Jet>* jets = event.jets;
 
-
-  int Njets = jets->size();
-  if(Njets<1) return;
-  hist("N_jets")->Fill(Njets, weight);
-  
+  //cout<< "weights" << endl;
   // begin irene for ratios histograms
 
   if(event.gentopjets->size() < 2) return;
   if(event.topjets->size() < 2) return;
 
+  //cout<< "size" << endl;
+
   
   auto RecoJetMass = event.topjets->at(0).v4().M();
   auto GenJetMass  = event.gentopjets->at(0).v4().M();
   hist("Mass_Ratio")->Fill((RecoJetMass-GenJetMass)/GenJetMass, weight);
+
+  //cout<< "mass" << endl;
+
+  auto jec = event.topjets->at(0).JEC_factor_raw();
+  auto jec_L1 = event.topjets->at(0).JEC_L1factor_raw();
+  hist("JEC")->Fill(jec, weight);
+  hist("JECreciprocal")->Fill(1./jec, weight);
+  hist("JEC_L1")->Fill(jec_L1, weight);
   
+  //cout<< "jec" << endl;
   
+
   auto RecoTau21_1 = event.topjets->at(0).tau2()/event.topjets->at(0).tau1();
   auto GenTau1_1   = event.gentopjets->at(0).tau1();
   auto GenTau2_1   = event.gentopjets->at(0).tau2();
   auto GenTau21_1  = GenTau2_1/GenTau1_1;
-  hist("Tau_Ratio")->Fill((RecoTau21_1-GenTau21_1)/GenTau21_1, weight);
+  hist("Tau_RatioDiff")->Fill((RecoTau21_1-GenTau21_1)/GenTau21_1, weight);
+  hist("Tau_Ratio")->Fill(RecoTau21_1/GenTau21_1, weight);
+  hist("GenTau21")->Fill(GenTau21_1, weight);
+  hist("RecoTau21")->Fill(RecoTau21_1, weight);
  
+  //cout<< "tau" << endl;
+
+  if(event.jets->size()<1) return;
   auto RecoJCHF_1 = event.jets->at(0).chargedHadronEnergyFraction();
   hist("CHF_RecoJet")->Fill(RecoJCHF_1,weight);
+  auto RecoJNHF_1 = event.jets->at(0).neutralHadronEnergyFraction();
+  hist("NHF_RecoJet")->Fill(RecoJNHF_1,weight);
+  auto RecoJPhF_1 = event.jets->at(0).photonEnergyFraction();
+  hist("PhF_RecoJet")->Fill(RecoJPhF_1,weight);
   auto RecoCHF_1 = event.topjets->at(0).chargedHadronEnergyFraction();
+  auto RecoNHF_1 = event.topjets->at(0).neutralHadronEnergyFraction();
+  auto RecoPhF_1 = event.topjets->at(0).photonEnergyFraction();
+
+  hist("CHF_RecoTJet")->Fill(RecoCHF_1,weight);
+  hist("NHF_RecoTJet")->Fill(RecoNHF_1,weight);
+  hist("PhF_RecoTJet")->Fill(RecoPhF_1,weight);
+
+
   auto GenCHF_1  = event.gentopjets->at(0).chf();
-  hist("CHF_Ratio")->Fill((RecoCHF_1-GenCHF_1)/GenCHF_1, weight);
+  auto GenNHF_1  = event.gentopjets->at(0).nhf();
+  auto GenPhF_1  = event.gentopjets->at(0).nef();
+
+  // //cout << "RecoJCHF_1: " << RecoJCHF_1 << "   GenCHF_1: " << GenCHF_1 <<  " ratio " << RecoJCHF_1/GenCHF_1 << endl;
+  // //cout << "RecoJNHF_1: " << RecoJNHF_1 << "   GenNHF_1: " << GenNHF_1 <<  " ratio " << RecoJNHF_1/GenNHF_1 << endl;
+  // //cout << "RecoJPhF_1: " << RecoJPhF_1 << "   GenPhF_1: " << GenPhF_1 <<  " ratio " << RecoJPhF_1/GenPhF_1 << endl;
+
+
+
+  hist("CHF_GenJet")->Fill(GenCHF_1,weight);
+  hist("NHF_GenJet")->Fill(GenNHF_1,weight);
+  hist("PhF_GenJet")->Fill(GenPhF_1,weight);
+  hist("CHF_Ratio")->Fill(RecoCHF_1/GenCHF_1, weight);
+  hist("NHF_Ratio")->Fill(RecoNHF_1/GenNHF_1, weight);
+  hist("PhF_Ratio")->Fill(RecoPhF_1/GenPhF_1, weight);
   hist("CHF_Ratio_Up")->Fill((RecoJCHF_1-GenCHF_1)/GenCHF_1, weight);
   hist("CHF_Ratio_RecoGen")->Fill(RecoJCHF_1/GenCHF_1, weight);
+  hist("NHF_Ratio_RecoGen")->Fill(RecoJNHF_1/GenNHF_1, weight);
+  hist("PhF_Ratio_RecoGen")->Fill(RecoJPhF_1/GenPhF_1, weight);
+
+  //cout<< "subs" << endl;
+
 
   //SoftDrop 
   //auto RecoJetSDMass1 = event.topjets->at(0).softdropmass();
@@ -143,13 +198,25 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 
 
   auto RecoJetSDMass1 = subjet_sum.M();
+  auto RecoJetSDMass1corrected = subjet_sum.M()*jec_L1;
   //auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
   auto GenJetSDMass1 = gsubjet_sum.M();
-  hist("SoftDropMass_ratio")->Fill(RecoJetSDMass1/GenJetSDMass1, weight);
+  hist("SoftDropMass_ratio")->Fill(RecoJetSDMass1corrected/GenJetSDMass1, weight);
   hist("SoftDropMass_ratioDiff")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
   if((RecoJetSDMass1>40 && RecoJetSDMass1<120)&&(GenJetSDMass1>40&& GenJetSDMass1<120))
   hist("SoftDropMass_ratio_range")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
-  hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
+  hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1corrected, weight);
+  hist("SoftDropMass_Gen")->Fill(GenJetSDMass1, weight);
+
+  //cout<< "SD mass" << endl;
+
+  auto RecoPt_1 =  event.topjets->at(0).pt();
+  auto GenPt_1 =  event.gentopjets->at(0).pt();
+  hist("Pt_Ratio")->Fill(RecoPt_1/GenPt_1, weight);
+  hist("Pt_RatioDiff")->Fill((RecoPt_1-GenPt_1)/GenPt_1, weight);
+
+  //cout<< "pt" << endl;
+
 
   //  hist("ROC_curve_mass_tau21")->Fill(RecoJetSDMass1,RecoTau21_1);
 
@@ -188,6 +255,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 	}
     }
 
+  //cout<< "qcd" << endl;
 
 
 
@@ -201,6 +269,8 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
   }
 
   const std::vector<GenParticle> &  genp = event.get(h_particles);
+
+  //cout<< "genP" << endl;
 
   //  int index;
   const auto & tjet_0 = Tjets[0];
@@ -216,7 +286,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 	  if(abs(gp.pdgId())==24)// && deltaR(tjet,gp)<0.4)
 	    {
 
-		     //	      cout << " W from Qstar" <<endl;
+		     //	      //cout << " W from Qstar" <<endl;
 		     // 	     RecoJetMass = ak8.v4().M();
 		     // GenJetMass  = event.gentopjets->at(0).v4().M();
 		     // hist("Mass_Ratio")->Fill((RecoJetMass-GenJetMass)/GenJetMass, weight);
@@ -271,7 +341,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 		     RecoJetSDMass1 = subjet_sum.M();
 		     // //auto GenJetSDMass1 = event.gentopjets->at(0).v4().M();
 		     // auto GenJetSDMass1 = gsubjet_sum.M();
-		     hist("Qstar_SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
+		     hist("Qstar_SoftDropMass_RECO")->Fill(RecoJetSDMass1*jec_L1, weight);
 		     // if((RecoJetSDMass1>40 && RecoJetSDMass1<120)&&(GenJetSDMass1>40&& GenJetSDMass1<120))
 		     // 	hist("SoftDropMass_ratio_range")->Fill((RecoJetSDMass1-GenJetSDMass1)/GenJetSDMass1, weight);
 		     // hist("SoftDropMass_RECO")->Fill(RecoJetSDMass1, weight);
@@ -280,7 +350,7 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
 		       {
 			 hist("Qstar_Tau21_PT")->Fill(RecoTau21_1, weight);
 			 hist("Qstar_PT_cut")->Fill(pt, weight);
-			 hist("Qstar_SoftDropMass_RECO_PT")->Fill(RecoJetSDMass1, weight);
+			 hist("Qstar_SoftDropMass_RECO_PT")->Fill(RecoJetSDMass1*jec_L1, weight);
 		       }
 	      
 		     // //Puppi 
@@ -291,39 +361,9 @@ void UpgradeStudiesGtoWWHists::fill(const Event & event){
        }
       //    }	      
   
-  
-  
+  //cout<< "Qstar" << endl;
 
 
-
-
-
-
-
-
-
-
-  if(Njets>=1){
-    hist("eta_jet1")->Fill(jets->at(0).eta(), weight);
-  }
-  if(Njets>=2){
-    hist("eta_jet2")->Fill(jets->at(1).eta(), weight);
-  }
-  if(Njets>=3){
-    hist("eta_jet3")->Fill(jets->at(2).eta(), weight);
-  }
-  if(Njets>=4){
-    hist("eta_jet4")->Fill(jets->at(3).eta(), weight);
-  }
-
-  int Nmuons = event.muons->size();
-  hist("N_mu")->Fill(Nmuons, weight);
-  for (const Muon & thismu : *event.muons){
-      hist("pt_mu")->Fill(thismu.pt(), weight);
-      hist("eta_mu")->Fill(thismu.eta(), weight);
-      hist("reliso_mu")->Fill(thismu.relIso(), weight);
-  }
-  
   int Npvs = event.pvs->size();
   hist("N_pv")->Fill(Npvs, weight);
 }
