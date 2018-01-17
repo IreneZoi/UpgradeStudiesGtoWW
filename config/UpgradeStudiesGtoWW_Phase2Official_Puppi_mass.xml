@@ -30,12 +30,13 @@
             <In FileName="/nfs/dust/cms/user/zoiirene/UpgradeStudiesGtoWW/framework93X/new932/VBF_BulkGravToWW_narrow_M-2000_14TeV_PhaseIITDRFall17_noPU/Ntuple_AK8_1.root" Lumi="0.0"/>
             <InputTree Name="AnalysisTree" /> 
         </InputData>
-        <!--
-        <InputData Lumi="1" NEventsMax="100" Type="MC" Version="BpJ_TW_1200" Cacheable="False">
-            <In FileName="/nfs/dust/cms/user/ottjoc/gc-output/PHYS14v1/signals/MC_BpJ_TW_M1200_20x25_19_Ntuple.root" Lumi="0.0"/> 
-            <InputTree Name="AnalysisTree" /> 
+
+
+        <InputData Lumi="1" NEventsMax="-1" Type="MC" Version="Qstar6000toQW_noPU_Puppi_mass_eta_JEC" Cacheable="False">
+<!--qui Qstar6000QW_noPU-->
+            <InputTree Name="AnalysisTree" />
         </InputData>
-            -->
+
         <UserConfig>
             <!-- define which collections to read from the input. Only specify what you need to save I/O time -->
             <Item Name="PrimaryVertexCollection" Value="offlineSlimmedPrimaryVertices" /> 

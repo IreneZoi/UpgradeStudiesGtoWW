@@ -59,6 +59,7 @@
             <Item Name="METName" Value="slimmedMETsPuppi" />
 <!--            <Item Name="GenTopJetCollection" Value="ak8GenJetsSoftDrop" />-->  <!-- FOR MASS -->
         <Item Name="GenTopJetCollection" Value="ak8GenJets" /> <!-- FOR NSubjettines and CHF-->
+            <Item Name="phase" Value="phase2" />
 
             
             <!-- The list of available collections to read in corresponds to the pointer members in event. The 'Name's to use here in the configuration are:
