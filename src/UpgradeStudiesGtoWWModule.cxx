@@ -340,7 +340,9 @@ bool UpgradeStudiesGtoWWModule::process(Event & event) {
       h_SDmass_slimmedJetAK8_SoftDrop->fill(event);
     }
     // 3. decide whether or not to keep the current event in the output:
+    return true;
 }
+
 
 // as we want to run the ExampleCycleNew directly with AnalysisModuleRunner,
 // make sure the UpgradeStudiesGtoWWModule is found by class name. This is ensured by this macro:
